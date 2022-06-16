@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.ComposeCalculator" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/medium_blue</item>
+        <item name="android:navigationBarColor">@color/medium_blue</item>
+    </style>
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/medium_blue</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_calculate</item>
+        <item name="windowSplashScreenAnimationDuration">5000</item>
+
+        <!-- This will Set the Theme of the app after the Splash Screen has been ended -->
+        <item name="postSplashScreenTheme">@style/Theme.ComposeCalculator</item>
+    </style>
+</resources>
