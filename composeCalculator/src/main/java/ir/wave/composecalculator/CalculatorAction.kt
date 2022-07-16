@@ -1,4 +1,4 @@
-package com.gnacoding.composecalculator
+package ir.wave.composecalculator
 
 sealed class CalculatorAction {
     data class Number(val number: Char): CalculatorAction()

@@ -1,4 +1,4 @@
-package com.gnacoding.composecalculator
+package ir.wave.composecalculator
 
 sealed class CalculatorOperation(val symbol: String) {
     object Add: CalculatorOperation("+")

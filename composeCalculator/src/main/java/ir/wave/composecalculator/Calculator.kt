@@ -1,27 +1,24 @@
-package com.gnacoding.composecalculator
+package ir.wave.composecalculator
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.gnacoding.composecalculator.ui.theme.*
+
 
 @Composable
 fun Calculator(
     modifier: Modifier = Modifier,
-    onResult: (String)->Unit={}
+    onResult: (String) -> Unit = {},
 ) {
 
     val viewModel = viewModel<CalculatorViewModel>()
@@ -30,7 +27,23 @@ fun Calculator(
     val state = viewModel.state
     val buttonSpacing = 8.dp
 
-    Box(modifier = modifier) {
+    val operatorBgColor = MaterialTheme.colorScheme.secondaryContainer
+    val operatorColor = MaterialTheme.colorScheme.onSecondaryContainer
+
+    val numberBgColor = MaterialTheme.colorScheme.surfaceVariant
+    val numberColor = MaterialTheme.colorScheme.onSurfaceVariant
+
+    val evalBgColor = MaterialTheme.colorScheme.primaryContainer
+    val evalColor = MaterialTheme.colorScheme.onPrimaryContainer
+
+    val acBgColor = MaterialTheme.colorScheme.tertiaryContainer
+    val acColor = MaterialTheme.colorScheme.onTertiaryContainer
+
+    val backgroundColor = MaterialTheme.colorScheme.background
+    val mainTextColor =MaterialTheme.colorScheme.onBackground
+
+    Box(modifier = modifier.background(backgroundColor)
+        .padding(buttonSpacing)) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -45,14 +58,16 @@ fun Calculator(
                     .padding(vertical = 2.dp),
                 fontWeight = FontWeight.Light,
                 fontSize = 50.sp,
-                color = Color.White,
-                maxLines = 3
+                maxLines = 3,
+                color = mainTextColor
             )
-            Divider(
+            Spacer(
                 modifier = Modifier
-                    .padding(vertical = 28.dp),
-                color = LightBlue,
-                thickness = 1.dp)
+                    .padding(vertical = 28.dp)
+                    .height(1.dp)
+                    .fillMaxWidth()
+                    .background(operatorBgColor),
+            )
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
@@ -60,13 +75,13 @@ fun Calculator(
                 CalculatorButton(
                     symbol = "AC",
                     modifier = Modifier
-                        .background(Green)
+                        .background(acBgColor)
                         .aspectRatio(2f)
                         .weight(2f),
-                    color = Color.Black,
+
                     onClick = {
                         onAction(CalculatorAction.Clear)
-                    }
+                    }, color = acColor
                 )
                 /*CalculatorButton(
                     symbol = "( )",
@@ -74,7 +89,7 @@ fun Calculator(
                         .background(LightBlue)
                         .aspectRatio(1f)
                         .weight(1f),
-                    color = Color.Black,
+                   
                     onClick = {
                         // TODO
                     }
@@ -82,25 +97,27 @@ fun Calculator(
                 CalculatorButton(
                     symbol = "%",
                     modifier = Modifier
-                        .background(LightBlue)
+                        .background(operatorBgColor)
                         .aspectRatio(1f)
                         .weight(1f),
-                    color = Color.Black,
+
                     onClick = {
 //                        onAction(CalculatorAction.Operation(CalculatorOperation.Modulo))
                         onAction(CalculatorAction.Number('%'))
-                    }
+                    },
+                    color = operatorColor
                 )
                 CalculatorButton(
                     symbol = "/",
                     modifier = Modifier
-                        .background(LightBlue)
+                        .background(operatorBgColor)
                         .aspectRatio(1f)
                         .weight(1f),
-                    color = Color.Black,
+
                     onClick = {
                         onAction(CalculatorAction.Operation(CalculatorOperation.Divide))
-                    }
+                    },
+                    color = operatorColor
                 )
             }
             Row(
@@ -110,43 +127,46 @@ fun Calculator(
                 CalculatorButton(
                     symbol = "7",
                     modifier = Modifier
-                        .background(DarkBlue)
+                        .background(numberBgColor)
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
                         onAction(CalculatorAction.Number('7'))
-                    }
+                    },
+                    color = numberColor
                 )
                 CalculatorButton(
                     symbol = "8",
                     modifier = Modifier
-                        .background(DarkBlue)
+                        .background(numberBgColor)
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
                         onAction(CalculatorAction.Number('8'))
-                    }
+                    },
+                    color = numberColor
                 )
                 CalculatorButton(
                     symbol = "9",
                     modifier = Modifier
-                        .background(DarkBlue)
+                        .background(numberBgColor)
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
                         onAction(CalculatorAction.Number('9'))
-                    }
+                    },
+                    color = numberColor
                 )
                 CalculatorButton(
-                    symbol = "x",
+                    symbol = "×",
                     modifier = Modifier
-                        .background(LightBlue)
+                        .background(operatorBgColor)
                         .aspectRatio(1f)
                         .weight(1f),
-                    color = Color.Black,
                     onClick = {
                         onAction(CalculatorAction.Operation(CalculatorOperation.Multiply))
-                    }
+                    },
+                    color = operatorColor
                 )
             }
             Row(
@@ -156,43 +176,47 @@ fun Calculator(
                 CalculatorButton(
                     symbol = "4",
                     modifier = Modifier
-                        .background(DarkBlue)
+                        .background(numberBgColor)
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
                         onAction(CalculatorAction.Number('4'))
-                    }
+                    },
+                    color = numberColor
                 )
                 CalculatorButton(
                     symbol = "5",
                     modifier = Modifier
-                        .background(DarkBlue)
+                        .background(numberBgColor)
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
                         onAction(CalculatorAction.Number('5'))
-                    }
+                    },
+                    color = numberColor
                 )
                 CalculatorButton(
                     symbol = "6",
                     modifier = Modifier
-                        .background(DarkBlue)
+                        .background(numberBgColor)
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
                         onAction(CalculatorAction.Number('6'))
-                    }
+                    },
+                    color = numberColor
                 )
                 CalculatorButton(
                     symbol = "-",
                     modifier = Modifier
-                        .background(LightBlue)
+                        .background(operatorBgColor)
                         .aspectRatio(1f)
                         .weight(1f),
-                    color = Color.Black,
+
                     onClick = {
                         onAction(CalculatorAction.Operation(CalculatorOperation.Subtract))
-                    }
+                    },
+                    color = operatorColor
                 )
             }
             Row(
@@ -202,43 +226,47 @@ fun Calculator(
                 CalculatorButton(
                     symbol = "1",
                     modifier = Modifier
-                        .background(DarkBlue)
+                        .background(numberBgColor)
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
                         onAction(CalculatorAction.Number('1'))
-                    }
+                    },
+                    color = numberColor
                 )
                 CalculatorButton(
                     symbol = "2",
                     modifier = Modifier
-                        .background(DarkBlue)
+                        .background(numberBgColor)
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
                         onAction(CalculatorAction.Number('2'))
-                    }
+                    },
+                    color = numberColor
                 )
                 CalculatorButton(
                     symbol = "3",
                     modifier = Modifier
-                        .background(DarkBlue)
+                        .background(numberBgColor)
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
                         onAction(CalculatorAction.Number('3'))
-                    }
+                    },
+                    color = numberColor
                 )
                 CalculatorButton(
                     symbol = "+",
                     modifier = Modifier
-                        .background(LightBlue)
+                        .background(operatorBgColor)
                         .aspectRatio(1f)
                         .weight(1f),
-                    color = Color.Black,
+
                     onClick = {
                         onAction(CalculatorAction.Operation(CalculatorOperation.Add))
-                    }
+                    },
+                    color = operatorColor
                 )
             }
             Row(
@@ -248,58 +276,49 @@ fun Calculator(
                 CalculatorButton(
                     symbol = "0",
                     modifier = Modifier
-                        .background(DarkBlue)
+                        .background(numberBgColor)
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
                         onAction(CalculatorAction.Number('0'))
-                    }
+                    },
+                    color = numberColor
                 )
                 CalculatorButton(
                     symbol = ".",
                     modifier = Modifier
-                        .background(DarkBlue)
+                        .background(numberBgColor)
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
                         onAction(CalculatorAction.Decimal)
-                    }
+                    },
+                    color = numberColor
                 )
                 PainterCalculatorButton(
                     symbol = painterResource(id = R.drawable.ic_backspace_outlined),
                     modifier = Modifier
-                        .background(DarkBlue)
+                        .background(numberBgColor)
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
                         onAction(CalculatorAction.Delete)
-                    }
+                    },
+                    color = numberColor
                 )
                 CalculatorButton(
                     symbol = "=",
                     modifier = Modifier
-                        .background(Blue)
+                        .background(evalBgColor)
                         .aspectRatio(1f)
                         .weight(1f),
-                    color = Color.Black,
+
                     onClick = {
                         onAction(CalculatorAction.Calculate)
-                    }
+                    },
+                    color = evalColor
                 )
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun CalculatorPreview() {
-    ComposeCalculatorTheme {
-        Calculator(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MediumBlue)
-                .padding(12.dp)
-        )
     }
 }

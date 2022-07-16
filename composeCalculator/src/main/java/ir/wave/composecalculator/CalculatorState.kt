@@ -1,4 +1,4 @@
-package com.gnacoding.composecalculator
+package ir.wave.composecalculator
 
 data class CalculatorState(
     val number1: String = "",

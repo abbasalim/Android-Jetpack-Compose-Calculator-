@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Compose Calculator</string>
+    <string name="title_activity_main_test">MainTestActivity</string>
 </resources>
