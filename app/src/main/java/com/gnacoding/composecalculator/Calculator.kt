@@ -19,7 +19,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gnacoding.composecalculator.ui.theme.*
 
 @Composable
-fun Calculator(
+fun calculate(
     state: CalculatorState,
     modifier: Modifier = Modifier,
     buttonSpacing: Dp = 12.dp,
@@ -82,7 +82,8 @@ fun Calculator(
                         .weight(1f),
                     color = Color.Black,
                     onClick = {
-                        onAction(CalculatorAction.Operation(CalculatorOperation.Modulo))
+//                        onAction(CalculatorAction.Operation(CalculatorOperation.Modulo))
+                        onAction(CalculatorAction.Number('%'))
                     }
                 )
                 CalculatorButton(
@@ -108,7 +109,7 @@ fun Calculator(
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
-                        onAction(CalculatorAction.Number(7))
+                        onAction(CalculatorAction.Number('7'))
                     }
                 )
                 CalculatorButton(
@@ -118,7 +119,7 @@ fun Calculator(
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
-                        onAction(CalculatorAction.Number(8))
+                        onAction(CalculatorAction.Number('8'))
                     }
                 )
                 CalculatorButton(
@@ -128,7 +129,7 @@ fun Calculator(
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
-                        onAction(CalculatorAction.Number(9))
+                        onAction(CalculatorAction.Number('9'))
                     }
                 )
                 CalculatorButton(
@@ -154,7 +155,7 @@ fun Calculator(
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
-                        onAction(CalculatorAction.Number(4))
+                        onAction(CalculatorAction.Number('4'))
                     }
                 )
                 CalculatorButton(
@@ -164,7 +165,7 @@ fun Calculator(
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
-                        onAction(CalculatorAction.Number(5))
+                        onAction(CalculatorAction.Number('5'))
                     }
                 )
                 CalculatorButton(
@@ -174,7 +175,7 @@ fun Calculator(
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
-                        onAction(CalculatorAction.Number(6))
+                        onAction(CalculatorAction.Number('6'))
                     }
                 )
                 CalculatorButton(
@@ -200,7 +201,7 @@ fun Calculator(
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
-                        onAction(CalculatorAction.Number(1))
+                        onAction(CalculatorAction.Number('1'))
                     }
                 )
                 CalculatorButton(
@@ -210,7 +211,7 @@ fun Calculator(
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
-                        onAction(CalculatorAction.Number(2))
+                        onAction(CalculatorAction.Number('2'))
                     }
                 )
                 CalculatorButton(
@@ -220,7 +221,7 @@ fun Calculator(
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
-                        onAction(CalculatorAction.Number(3))
+                        onAction(CalculatorAction.Number('3'))
                     }
                 )
                 CalculatorButton(
@@ -246,7 +247,7 @@ fun Calculator(
                         .aspectRatio(1f)
                         .weight(1f),
                     onClick = {
-                        onAction(CalculatorAction.Number(0))
+                        onAction(CalculatorAction.Number('0'))
                     }
                 )
                 CalculatorButton(
@@ -292,7 +293,7 @@ fun CalculatorPreview() {
         val viewModel = viewModel<CalculatorViewModel>()
         val state = viewModel.state
         val buttonSpacing = 8.dp
-        Calculator(
+        calculate(
             state = state,
             onAction = viewModel::onAction,
             buttonSpacing = buttonSpacing,

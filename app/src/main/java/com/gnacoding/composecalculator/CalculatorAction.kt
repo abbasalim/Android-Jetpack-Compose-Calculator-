@@ -1,7 +1,7 @@
 package com.gnacoding.composecalculator
 
 sealed class CalculatorAction {
-    data class Number(val number: Int): CalculatorAction()
+    data class Number(val number: Char): CalculatorAction()
     object Clear: CalculatorAction()
     object Delete: CalculatorAction()
     object Decimal: CalculatorAction()
