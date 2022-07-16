@@ -5,11 +5,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.*
 
-class CalculatorViewModel : ViewModel() {
+class CalculatorViewModel ( ): ViewModel( ) {
 
     var state by mutableStateOf(CalculatorState())
         private set
+
+    var onResult: (String)->Unit ={}
 
     fun onAction(action: CalculatorAction) {
         when (action) {
@@ -37,19 +42,11 @@ class CalculatorViewModel : ViewModel() {
     }
 
     private fun performCalculation() {
+        val df = DecimalFormat("#.####", DecimalFormatSymbols.getInstance(Locale.ENGLISH))
         val symbol = state.operation?.symbol
         var number1 = state.number1
         var number2 = state.number2
         if (number1.isNotBlank() && number2.isNotBlank()) {
-            /* val result = when(state.operation) {
-                 is CalculatorOperation.Add -> number1 + number2
-                 is CalculatorOperation.Subtract -> number1 - number2
-                 is CalculatorOperation.Multiply -> number1 * number2
-                 is CalculatorOperation.Divide -> number1 / number2
-                 is CalculatorOperation.Modulo -> number1 % number2
-                 null -> return
-             }*/
-
             if (number1.endsWith("%"))
                 number1 = "(${number1.replace("%","")}÷100)"
 
@@ -60,13 +57,13 @@ class CalculatorViewModel : ViewModel() {
                     number2 = "(${number2.replace("%","")}÷100)"
             }
 
-
-            val result = Calculator("$number1${symbol}$number2")
+            val result = calculate("$number1${symbol}$number2")
             state = state.copy(
-                number1 = result.toString().take(15),
+                number1 = df.format(result),
                 number2 = "",
                 operation = null
             )
+            onResult(df.format(result))
         }
     }
 
@@ -114,11 +111,11 @@ class CalculatorViewModel : ViewModel() {
     }
 
     companion object {
-        private const val MAX_NUM_LENGTH = 8
+        private const val MAX_NUM_LENGTH = 16
     }
 
 
-    fun Calculator(str: String): Double {
+    fun calculate(str: String): Double {
         Log.d("Calculator", str);
         return if (str.trim { it <= ' ' }.length == 0) 0.toDouble() else object : Any() {
             var pos = -1

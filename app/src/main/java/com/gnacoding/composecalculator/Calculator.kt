@@ -19,12 +19,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gnacoding.composecalculator.ui.theme.*
 
 @Composable
-fun calculate(
-    state: CalculatorState,
+fun Calculator(
     modifier: Modifier = Modifier,
-    buttonSpacing: Dp = 12.dp,
-    onAction: (CalculatorAction) -> Unit
+    onResult: (String)->Unit={}
 ) {
+
+    val viewModel = viewModel<CalculatorViewModel>()
+    viewModel.onResult = onResult
+    val onAction = viewModel::onAction
+    val state = viewModel.state
+    val buttonSpacing = 8.dp
+
     Box(modifier = modifier) {
         Column(
             modifier = Modifier
@@ -39,9 +44,9 @@ fun calculate(
                     .fillMaxWidth()
                     .padding(vertical = 2.dp),
                 fontWeight = FontWeight.Light,
-                fontSize = 55.sp,
+                fontSize = 50.sp,
                 color = Color.White,
-                maxLines = 2
+                maxLines = 3
             )
             Divider(
                 modifier = Modifier
@@ -290,13 +295,7 @@ fun calculate(
 @Composable
 fun CalculatorPreview() {
     ComposeCalculatorTheme {
-        val viewModel = viewModel<CalculatorViewModel>()
-        val state = viewModel.state
-        val buttonSpacing = 8.dp
-        calculate(
-            state = state,
-            onAction = viewModel::onAction,
-            buttonSpacing = buttonSpacing,
+        Calculator(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MediumBlue)
