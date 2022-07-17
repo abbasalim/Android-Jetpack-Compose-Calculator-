@@ -5,6 +5,12 @@ Compose Calculator demonstrates Jetpack Compose and ViewModel.
 </p>
 </br>
 
+Easy to Use:
+  
+	 Calculator {Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
+	
+  
+
 <p align="center">
 <img src="https://user-images.githubusercontent.com/73926625/173975249-b8b6f6a6-327b-4871-a825-6b748a1ac4cf.png"/>
 </p>
