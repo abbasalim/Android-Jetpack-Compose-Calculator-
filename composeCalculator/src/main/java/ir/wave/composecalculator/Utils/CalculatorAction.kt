@@ -1,4 +1,4 @@
-package ir.wave.composecalculator
+package ir.wave.composecalculator.Utils
 
 sealed class CalculatorAction {
     data class Number(val number: Char): CalculatorAction()

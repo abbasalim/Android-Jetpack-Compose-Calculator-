@@ -1,4 +1,4 @@
-package ir.wave.composecalculator
+package ir.wave.composecalculator.Utils
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

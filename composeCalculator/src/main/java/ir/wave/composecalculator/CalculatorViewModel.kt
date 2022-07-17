@@ -5,6 +5,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import ir.wave.composecalculator.Utils.CalculatorAction
+import ir.wave.composecalculator.Utils.CalculatorOperation
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*

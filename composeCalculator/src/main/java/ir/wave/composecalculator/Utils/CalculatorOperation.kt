@@ -1,4 +1,4 @@
-package ir.wave.composecalculator
+package ir.wave.composecalculator.Utils
 
 sealed class CalculatorOperation(val symbol: String) {
     object Add: CalculatorOperation("+")
