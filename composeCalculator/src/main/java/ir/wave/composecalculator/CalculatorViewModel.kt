@@ -14,9 +14,10 @@ import java.util.*
 class CalculatorViewModel ( ): ViewModel( ) {
 
     var state by mutableStateOf(CalculatorState())
-        private set
+         set
 
     var onResult: (String)->Unit ={}
+    var roundResult: Boolean=false
 
     fun onAction(action: CalculatorAction) {
         when (action) {
@@ -45,6 +46,7 @@ class CalculatorViewModel ( ): ViewModel( ) {
 
     private fun performCalculation() {
         val df = DecimalFormat("#.####", DecimalFormatSymbols.getInstance(Locale.ENGLISH))
+        val dfInteger = DecimalFormat("#", DecimalFormatSymbols.getInstance(Locale.ENGLISH))
         val symbol = state.operation?.symbol
         var number1 = state.number1
         var number2 = state.number2
@@ -59,13 +61,14 @@ class CalculatorViewModel ( ): ViewModel( ) {
                     number2 = "(${number2.replace("%","")}÷100)"
             }
 
-            val result = calculate("$number1${symbol}$number2")
+            var result = calculate("$number1${symbol}$number2")
             state = state.copy(
                 number1 = df.format(result),
                 number2 = "",
                 operation = null
             )
-            onResult(df.format(result))
+
+            onResult(if(roundResult) dfInteger.format(result)else df.format(result))
         }
     }
 

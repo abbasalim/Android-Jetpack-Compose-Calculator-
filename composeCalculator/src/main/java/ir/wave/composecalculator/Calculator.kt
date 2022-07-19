@@ -6,6 +6,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -22,6 +25,8 @@ import ir.wave.composecalculator.Utils.*
 @Composable
 fun Calculator(
     modifier: Modifier = Modifier,
+    defValue: Double = 0.0,
+    roundResult: Boolean = false,
     calculatorColors: CalculatorColors = CalculatorColors(
         operatorBgColor = MaterialTheme.colorScheme.secondaryContainer,
         operatorColor = MaterialTheme.colorScheme.onSecondaryContainer,
@@ -40,11 +45,13 @@ fun Calculator(
 
     val viewModel = viewModel<CalculatorViewModel>()
     viewModel.onResult = onResult
+    viewModel.roundResult=roundResult
     val onAction = viewModel::onAction
     val state = viewModel.state
+    InitDefValue(defValue )
+
+
     val buttonSpacing = 8.dp
-
-
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
     val maxH: Dp = screenHeight * 3 / 5
@@ -104,17 +111,6 @@ fun Calculator(
                             onAction(CalculatorAction.Clear)
                         }, color = calculatorColors.acColor
                     )
-                    /*CalculatorButton(
-                        symbol = "( )",
-                        modifier = Modifier
-                            .background(LightBlue)
-                            .aspectRatio(1f)
-                            .weight(1f),
-
-                        onClick = {
-                            // TODO
-                        }
-                    )*/
                     CalculatorButton(
                         symbol = "%",
                         modifier = Modifier
@@ -123,7 +119,6 @@ fun Calculator(
                             .weight(1f),
 
                         onClick = {
-//                        onAction(CalculatorAction.Operation(CalculatorOperation.Modulo))
                             onAction(CalculatorAction.Number('%'))
                         },
                         color = calculatorColors.operatorColor
@@ -348,17 +343,28 @@ fun Calculator(
                         color = calculatorColors.evalColor
                     )
                 }
-
-
             }
         }
     }
 
 
+}
 
-    @Composable
-    fun CalculatorColors() {
+@Composable
+private fun InitDefValue(
+    defValue: Double
+) {
+    val viewModel = viewModel<CalculatorViewModel>()
+    val onAction = viewModel::onAction
 
+    val inited = rememberSaveable { mutableStateOf(false) }
+    LaunchedEffect(key1 = Unit) {
+        if (!inited.value) {
+            inited.value = true
+            defValue.toString().forEach {
+                onAction(CalculatorAction.Number(it))
+            }
+        }
     }
 }
 
