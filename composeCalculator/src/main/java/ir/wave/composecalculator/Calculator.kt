@@ -25,7 +25,7 @@ import ir.wave.composecalculator.Utils.*
 @Composable
 fun Calculator(
     modifier: Modifier = Modifier,
-    defValue: Double = 0.0,
+    defValue: Double? = null,
     roundResult: Boolean = false,
     calculatorColors: CalculatorColors = CalculatorColors(
         operatorBgColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -48,7 +48,7 @@ fun Calculator(
     viewModel.roundResult=roundResult
     val onAction = viewModel::onAction
     val state = viewModel.state
-    InitDefValue(defValue )
+    InitDefValue(defValue)
 
 
     val buttonSpacing = 8.dp
@@ -352,8 +352,9 @@ fun Calculator(
 
 @Composable
 private fun InitDefValue(
-    defValue: Double
+    defValue: Double?
 ) {
+    if (defValue==null || defValue==0.0)return
     val viewModel = viewModel<CalculatorViewModel>()
     val onAction = viewModel::onAction
 
