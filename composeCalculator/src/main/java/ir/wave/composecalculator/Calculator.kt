@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ir.wave.composecalculator.Utils.*
+import ir.wave.composecalculator.Utils.DigitSeprator.seRaghmBandi
 
 
 @Composable
@@ -49,7 +50,7 @@ fun Calculator(
 
     val viewModel = viewModel<CalculatorViewModel>()
     viewModel.onResult = onResult
-    viewModel.roundResult=roundResult
+    viewModel.roundResult = roundResult
     val onAction = viewModel::onAction
     val state = viewModel.state
     InitDefValue(defValue)
@@ -85,13 +86,14 @@ fun Calculator(
                     verticalArrangement = Arrangement.Bottom
                 ) {
                     Text(
-                        text = state.number1 + (state.operation?.symbol ?: "") + state.number2,
+                        text = seRaghmBandi(state.number1) + (state.operation?.symbol
+                            ?: "") + seRaghmBandi(state.number2),
                         textAlign = TextAlign.End,
                         fontWeight = FontWeight.Light,
                         lineHeight = 50.sp,
                         fontSize = 50.sp,
                         maxLines = 3,
-                        color = calculatorColors.mainTextColor
+                        color = calculatorColors.mainTextColor,
                     )
                 }
                 Column(
@@ -360,7 +362,7 @@ fun Calculator(
 private fun InitDefValue(
     defValue: Double?
 ) {
-    if (defValue==null || defValue==0.0)return
+    if (defValue == null || defValue == 0.0) return
     val viewModel = viewModel<CalculatorViewModel>()
     val onAction = viewModel::onAction
 
