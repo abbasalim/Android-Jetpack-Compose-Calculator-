@@ -7,6 +7,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import ir.wave.composecalculator.Utils.CalculatorAction
 import ir.wave.composecalculator.Utils.CalculatorOperation
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
@@ -14,7 +16,7 @@ import java.util.*
 class CalculatorViewModel ( ): ViewModel( ) {
 
     var state by mutableStateOf(CalculatorState())
-         set
+        set
 
     var onResult: (String)->Unit ={}
     var roundResult: Boolean=false
@@ -120,9 +122,9 @@ class CalculatorViewModel ( ): ViewModel( ) {
     }
 
 
-    fun calculate(str: String): Double {
+    fun calculate(str: String): BigDecimal {
         Log.d("Calculator", str);
-        return if (str.trim { it <= ' ' }.length == 0) 0.toDouble() else object : Any() {
+        return if (str.trim { it <= ' ' }.length == 0) 0.toBigDecimal() else object : Any() {
             var pos = -1
             var ch = 0
             fun nextChar() {
@@ -138,7 +140,7 @@ class CalculatorViewModel ( ): ViewModel( ) {
                 return false
             }
 
-            fun parse(): Double {
+            fun parse(): BigDecimal {
                 nextChar()
                 val x = parseExpression()
                 if (pos < str.length) {
@@ -152,7 +154,7 @@ class CalculatorViewModel ( ): ViewModel( ) {
             // term = factor | term `×` factor | term `÷` factor
             // factor = `+` factor | `−` factor | `(` expression `)`
             //        | number | functionName factor | factor `^` factor
-            fun parseExpression(): Double {
+            fun parseExpression(): BigDecimal {
                 var x = parseTerm()
                 while (true) {
                     if (eat('+'.code)) x += parseTerm() // addition
@@ -161,41 +163,41 @@ class CalculatorViewModel ( ): ViewModel( ) {
                 }
             }
 
-            fun parseTerm(): Double {
+            fun parseTerm(): BigDecimal {
                 var x = parseFactor()
                 while (true) {
                     if (eat('×'.code)) x *= parseFactor() // multiplication
-                    else if (eat('÷'.code)) x /= parseFactor() // division
+                    else if (eat('÷'.code)) x = x.divide(parseFactor(),4, RoundingMode.HALF_EVEN)  // division
                     else return x
                 }
             }
 
-            fun parseFactor(): Double {
+            fun parseFactor(): BigDecimal {
                 if (eat('+'.code)) return parseFactor() // unary plus
                 if (eat('−'.code) || eat('-'.code)) return -parseFactor() // unary minus
-                var x: Double
+                var x: BigDecimal
                 val startPos = pos
                 if (eat('('.code)) { // parentheses
                     x = parseExpression()
                     eat(')'.code)
                 } else if (ch >= '0'.code && ch <= '9'.code || ch == '.'.code) { // numbers
                     while (ch >= '0'.code && ch <= '9'.code || ch == '.'.code) nextChar()
-                    x = str.substring(startPos, pos).toDouble()
+                    x = str.substring(startPos, pos).toBigDecimal()
                 } else if (ch >= 'a'.code && ch <= 'z'.code) { // functions
                     while (ch >= 'a'.code && ch <= 'z'.code) nextChar()
                     val func = str.substring(startPos, pos)
                     x = parseFactor()
                     x = when (func) {
-                        "sqrt" -> Math.sqrt(x)
-                        "sin" -> Math.sin(Math.toRadians(x))
-                        "cos" -> Math.cos(Math.toRadians(x))
-                        "tan" -> Math.tan(Math.toRadians(x))
+                        "sqrt" -> Math.sqrt(x.toDouble()).toBigDecimal()
+                        "sin" -> Math.sin(Math.toRadians(x.toDouble())).toBigDecimal()
+                        "cos" -> Math.cos(Math.toRadians(x.toDouble())).toBigDecimal()
+                        "tan" -> Math.tan(Math.toRadians(x.toDouble())).toBigDecimal()
                         else -> throw RuntimeException("Unknown function: $func")
                     }
                 } else {
                     throw RuntimeException("Unexpected: " + ch.toChar())
                 }
-                if (eat('^'.code)) x = Math.pow(x, parseFactor()) // exponentiation
+                if (eat('^'.code)) x = Math.pow(x.toDouble(), parseFactor().toDouble()).toBigDecimal() // exponentiation
                 return x
             }
         }.parse()
