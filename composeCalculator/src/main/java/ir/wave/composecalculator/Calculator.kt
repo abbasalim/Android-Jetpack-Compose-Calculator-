@@ -9,10 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
@@ -55,17 +58,22 @@ fun Calculator(
     val state = viewModel.state
     InitDefValue(defValue)
 
+    val localDensity = LocalDensity.current
+    val heightIs = remember { mutableStateOf(100.dp)}
+
+
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
         val focusManager = LocalFocusManager.current
         focusManager.clearFocus()
         val buttonSpacing = 8.dp
-        val configuration = LocalConfiguration.current
-        val screenHeight = configuration.screenHeightDp.dp
-        val maxH: Dp = screenHeight * 3 / 5
+        val maxH: Dp =  heightIs.value * 3 / 5
         Box(
             modifier = modifier
                 .background(calculatorColors.backgroundColor)
                 .wrapContentSize()
+                .onGloballyPositioned { coordinates ->
+                    heightIs.value = with(localDensity) { coordinates.size.height.toDp() }
+                }
         ) {
 
             Column(
@@ -86,7 +94,7 @@ fun Calculator(
                     verticalArrangement = Arrangement.Bottom
                 ) {
                     Text(
-                        text = seRaghmBandi(state.number1) + (state.operation?.symbol
+                        text =seRaghmBandi(state.number1) + (state.operation?.symbol
                             ?: "") + seRaghmBandi(state.number2),
                         textAlign = TextAlign.End,
                         fontWeight = FontWeight.Light,
