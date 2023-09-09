@@ -15,6 +15,10 @@ import java.util.*
 
 class CalculatorViewModel ( ): ViewModel( ) {
 
+
+    val df = DecimalFormat("#.####", DecimalFormatSymbols.getInstance(Locale.ENGLISH))
+    val dfInteger = DecimalFormat("#", DecimalFormatSymbols.getInstance(Locale.ENGLISH))
+
     var state by mutableStateOf(CalculatorState())
         set
 
@@ -47,8 +51,6 @@ class CalculatorViewModel ( ): ViewModel( ) {
     }
 
     private fun performCalculation() {
-        val df = DecimalFormat("#.####", DecimalFormatSymbols.getInstance(Locale.ENGLISH))
-        val dfInteger = DecimalFormat("#", DecimalFormatSymbols.getInstance(Locale.ENGLISH))
         val symbol = state.operation?.symbol
         var number1 = state.number1
         var number2 = state.number2

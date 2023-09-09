@@ -378,7 +378,7 @@ private fun InitDefValue(
     LaunchedEffect(key1 = Unit) {
         if (!inited.value) {
             inited.value = true
-            defValue.toString().forEach {
+            viewModel.df.format(defValue).forEach {
                 onAction(CalculatorAction.Number(it))
             }
         }

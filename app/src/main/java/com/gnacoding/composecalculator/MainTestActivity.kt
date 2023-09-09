@@ -21,7 +21,7 @@ class MainTestActivity : ComponentActivity() {
             ComposeCalculatorTheme {
                 val context = LocalContext.current
 //                Calculator {Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
-                Calculator (defValue = 55.0, roundResult = true){Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
+                Calculator (defValue = 5000000000.0, roundResult = true){Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
             }
         }
     }
