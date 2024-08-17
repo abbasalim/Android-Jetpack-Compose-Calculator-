@@ -370,7 +370,7 @@ fun Calculator(
 private fun InitDefValue(
     defValue: Double?
 ) {
-    if (defValue == null || defValue == 0.0) return
+    if (defValue == null) return
     val viewModel = viewModel<CalculatorViewModel>()
     val onAction = viewModel::onAction
 
