@@ -1,7 +1,15 @@
 package ir.wave.composecalculator
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -14,7 +22,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -26,7 +33,10 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import ir.wave.composecalculator.Utils.*
+import ir.wave.composecalculator.Utils.CalculatorAction
+import ir.wave.composecalculator.Utils.CalculatorButton
+import ir.wave.composecalculator.Utils.CalculatorColors
+import ir.wave.composecalculator.Utils.CalculatorOperation
 import ir.wave.composecalculator.Utils.DigitSeprator.seRaghmBandi
 
 
@@ -59,14 +69,14 @@ fun Calculator(
     InitDefValue(defValue)
 
     val localDensity = LocalDensity.current
-    val heightIs = remember { mutableStateOf(100.dp)}
+    val heightIs = remember { mutableStateOf(100.dp) }
 
 
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
         val focusManager = LocalFocusManager.current
         focusManager.clearFocus()
         val buttonSpacing = 8.dp
-        val maxH: Dp =  heightIs.value * 3 / 5
+        val maxH: Dp = heightIs.value * 3 / 5
         Box(
             modifier = modifier
                 .background(calculatorColors.backgroundColor)
@@ -93,13 +103,15 @@ fun Calculator(
                         .padding(24.dp),
                     verticalArrangement = Arrangement.Bottom
                 ) {
+
+
                     Text(
-                        text =seRaghmBandi(state.number1) + (state.operation?.symbol
+                        text = seRaghmBandi(state.number1) + (state.operation?.symbol
                             ?: "") + seRaghmBandi(state.number2),
                         textAlign = TextAlign.End,
                         fontWeight = FontWeight.Light,
-                        lineHeight = 50.sp,
-                        fontSize = 50.sp,
+                        lineHeight = 40.sp,
+                        fontSize = 40.sp,
                         maxLines = 3,
                         color = calculatorColors.mainTextColor,
                     )
@@ -117,7 +129,7 @@ fun Calculator(
                         horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
                     ) {
                         CalculatorButton(
-                            symbol = "AC",
+                            text = "AC",
                             modifier = Modifier
                                 .background(calculatorColors.acBgColor)
                                 .aspectRatio(2f)
@@ -128,7 +140,7 @@ fun Calculator(
                             }, color = calculatorColors.acColor
                         )
                         CalculatorButton(
-                            symbol = "%",
+                            text = "%",
                             modifier = Modifier
                                 .background(calculatorColors.operatorBgColor)
                                 .aspectRatio(1f)
@@ -140,7 +152,7 @@ fun Calculator(
                             color = calculatorColors.operatorColor
                         )
                         CalculatorButton(
-                            symbol = "/",
+                            text = "/",
                             modifier = Modifier
                                 .background(calculatorColors.operatorBgColor)
                                 .aspectRatio(1f)
@@ -159,7 +171,7 @@ fun Calculator(
                         horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
                     ) {
                         CalculatorButton(
-                            symbol = "7",
+                            text = "7",
                             modifier = Modifier
                                 .background(calculatorColors.numberBgColor)
                                 .aspectRatio(1f)
@@ -170,7 +182,7 @@ fun Calculator(
                             color = calculatorColors.numberColor
                         )
                         CalculatorButton(
-                            symbol = "8",
+                            text = "8",
                             modifier = Modifier
                                 .background(calculatorColors.numberBgColor)
                                 .aspectRatio(1f)
@@ -181,7 +193,7 @@ fun Calculator(
                             color = calculatorColors.numberColor
                         )
                         CalculatorButton(
-                            symbol = "9",
+                            text = "9",
                             modifier = Modifier
                                 .background(calculatorColors.numberBgColor)
                                 .aspectRatio(1f)
@@ -192,7 +204,7 @@ fun Calculator(
                             color = calculatorColors.numberColor
                         )
                         CalculatorButton(
-                            symbol = "×",
+                            text = "×",
                             modifier = Modifier
                                 .background(calculatorColors.operatorBgColor)
                                 .aspectRatio(1f)
@@ -210,7 +222,7 @@ fun Calculator(
                         horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
                     ) {
                         CalculatorButton(
-                            symbol = "4",
+                            text = "4",
                             modifier = Modifier
                                 .background(calculatorColors.numberBgColor)
                                 .aspectRatio(1f)
@@ -221,7 +233,7 @@ fun Calculator(
                             color = calculatorColors.numberColor
                         )
                         CalculatorButton(
-                            symbol = "5",
+                            text = "5",
                             modifier = Modifier
                                 .background(calculatorColors.numberBgColor)
                                 .aspectRatio(1f)
@@ -232,7 +244,7 @@ fun Calculator(
                             color = calculatorColors.numberColor
                         )
                         CalculatorButton(
-                            symbol = "6",
+                            text = "6",
                             modifier = Modifier
                                 .background(calculatorColors.numberBgColor)
                                 .aspectRatio(1f)
@@ -243,7 +255,7 @@ fun Calculator(
                             color = calculatorColors.numberColor
                         )
                         CalculatorButton(
-                            symbol = "-",
+                            text = "-",
                             modifier = Modifier
                                 .background(calculatorColors.operatorBgColor)
                                 .aspectRatio(1f)
@@ -262,7 +274,7 @@ fun Calculator(
                         horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
                     ) {
                         CalculatorButton(
-                            symbol = "1",
+                            text = "1",
                             modifier = Modifier
                                 .background(calculatorColors.numberBgColor)
                                 .aspectRatio(1f)
@@ -273,7 +285,7 @@ fun Calculator(
                             color = calculatorColors.numberColor
                         )
                         CalculatorButton(
-                            symbol = "2",
+                            text = "2",
                             modifier = Modifier
                                 .background(calculatorColors.numberBgColor)
                                 .aspectRatio(1f)
@@ -284,7 +296,7 @@ fun Calculator(
                             color = calculatorColors.numberColor
                         )
                         CalculatorButton(
-                            symbol = "3",
+                            text = "3",
                             modifier = Modifier
                                 .background(calculatorColors.numberBgColor)
                                 .aspectRatio(1f)
@@ -295,7 +307,7 @@ fun Calculator(
                             color = calculatorColors.numberColor
                         )
                         CalculatorButton(
-                            symbol = "+",
+                            text = "+",
                             modifier = Modifier
                                 .background(calculatorColors.operatorBgColor)
                                 .aspectRatio(1f)
@@ -314,7 +326,7 @@ fun Calculator(
                         horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
                     ) {
                         CalculatorButton(
-                            symbol = "0",
+                            text = "0",
                             modifier = Modifier
                                 .background(calculatorColors.numberBgColor)
                                 .aspectRatio(1f)
@@ -325,7 +337,7 @@ fun Calculator(
                             color = calculatorColors.numberColor
                         )
                         CalculatorButton(
-                            symbol = ".",
+                            text = ".",
                             modifier = Modifier
                                 .background(calculatorColors.numberBgColor)
                                 .aspectRatio(1f)
@@ -335,7 +347,8 @@ fun Calculator(
                             },
                             color = calculatorColors.numberColor
                         )
-                        PainterCalculatorButton(
+                        CalculatorButton(
+                            text = null,
                             symbol = painterResource(id = R.drawable.ic_backspace_outlined),
                             modifier = Modifier
                                 .background(calculatorColors.numberBgColor)
@@ -347,7 +360,7 @@ fun Calculator(
                             color = calculatorColors.numberColor
                         )
                         CalculatorButton(
-                            symbol = "=",
+                            text = "=",
                             modifier = Modifier
                                 .background(calculatorColors.evalBgColor)
                                 .aspectRatio(1f)
