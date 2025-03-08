@@ -132,13 +132,15 @@ fun Calculator(
                             text = "AC",
                             modifier = Modifier
                                 .background(calculatorColors.acBgColor)
-                                .aspectRatio(2f)
-                                .weight(2f),
-
+                                .aspectRatio(1f)
+                                .weight(1f),
                             onClick = {
                                 onAction(CalculatorAction.Clear)
                             }, color = calculatorColors.acColor
                         )
+
+
+
                         CalculatorButton(
                             text = "%",
                             modifier = Modifier
@@ -147,7 +149,7 @@ fun Calculator(
                                 .weight(1f),
 
                             onClick = {
-                                onAction(CalculatorAction.Number('%'))
+                                onAction(CalculatorAction.Number("%"))
                             },
                             color = calculatorColors.operatorColor
                         )
@@ -163,6 +165,18 @@ fun Calculator(
                             },
                             color = calculatorColors.operatorColor
                         )
+                        CalculatorButton(
+                            text = null,
+                            symbol = painterResource(id = R.drawable.ic_backspace_outlined),
+                            modifier = Modifier
+                                .background(calculatorColors.acBgColor)
+                                .aspectRatio(1f)
+                                .weight(1f),
+                            onClick = {
+                                onAction(CalculatorAction.Delete)
+                            },
+                            color = calculatorColors.acColor
+                        )
                     }
                     Row(
                         modifier = Modifier
@@ -177,7 +191,7 @@ fun Calculator(
                                 .aspectRatio(1f)
                                 .weight(1f),
                             onClick = {
-                                onAction(CalculatorAction.Number('7'))
+                                onAction(CalculatorAction.Number("7"))
                             },
                             color = calculatorColors.numberColor
                         )
@@ -188,7 +202,7 @@ fun Calculator(
                                 .aspectRatio(1f)
                                 .weight(1f),
                             onClick = {
-                                onAction(CalculatorAction.Number('8'))
+                                onAction(CalculatorAction.Number("8"))
                             },
                             color = calculatorColors.numberColor
                         )
@@ -199,7 +213,7 @@ fun Calculator(
                                 .aspectRatio(1f)
                                 .weight(1f),
                             onClick = {
-                                onAction(CalculatorAction.Number('9'))
+                                onAction(CalculatorAction.Number("9"))
                             },
                             color = calculatorColors.numberColor
                         )
@@ -228,7 +242,7 @@ fun Calculator(
                                 .aspectRatio(1f)
                                 .weight(1f),
                             onClick = {
-                                onAction(CalculatorAction.Number('4'))
+                                onAction(CalculatorAction.Number("4"))
                             },
                             color = calculatorColors.numberColor
                         )
@@ -239,7 +253,7 @@ fun Calculator(
                                 .aspectRatio(1f)
                                 .weight(1f),
                             onClick = {
-                                onAction(CalculatorAction.Number('5'))
+                                onAction(CalculatorAction.Number("5"))
                             },
                             color = calculatorColors.numberColor
                         )
@@ -250,7 +264,7 @@ fun Calculator(
                                 .aspectRatio(1f)
                                 .weight(1f),
                             onClick = {
-                                onAction(CalculatorAction.Number('6'))
+                                onAction(CalculatorAction.Number("6"))
                             },
                             color = calculatorColors.numberColor
                         )
@@ -280,7 +294,7 @@ fun Calculator(
                                 .aspectRatio(1f)
                                 .weight(1f),
                             onClick = {
-                                onAction(CalculatorAction.Number('1'))
+                                onAction(CalculatorAction.Number("1"))
                             },
                             color = calculatorColors.numberColor
                         )
@@ -291,7 +305,7 @@ fun Calculator(
                                 .aspectRatio(1f)
                                 .weight(1f),
                             onClick = {
-                                onAction(CalculatorAction.Number('2'))
+                                onAction(CalculatorAction.Number("2"))
                             },
                             color = calculatorColors.numberColor
                         )
@@ -302,7 +316,7 @@ fun Calculator(
                                 .aspectRatio(1f)
                                 .weight(1f),
                             onClick = {
-                                onAction(CalculatorAction.Number('3'))
+                                onAction(CalculatorAction.Number("3"))
                             },
                             color = calculatorColors.numberColor
                         )
@@ -332,7 +346,7 @@ fun Calculator(
                                 .aspectRatio(1f)
                                 .weight(1f),
                             onClick = {
-                                onAction(CalculatorAction.Number('0'))
+                                onAction(CalculatorAction.Number("0"))
                             },
                             color = calculatorColors.numberColor
                         )
@@ -348,14 +362,13 @@ fun Calculator(
                             color = calculatorColors.numberColor
                         )
                         CalculatorButton(
-                            text = null,
-                            symbol = painterResource(id = R.drawable.ic_backspace_outlined),
+                            text = "000",
                             modifier = Modifier
                                 .background(calculatorColors.numberBgColor)
                                 .aspectRatio(1f)
                                 .weight(1f),
                             onClick = {
-                                onAction(CalculatorAction.Delete)
+                                onAction(CalculatorAction.Number("000"))
                             },
                             color = calculatorColors.numberColor
                         )
@@ -393,7 +406,7 @@ private fun InitDefValue(
             inited.value = true
             onAction(CalculatorAction.Clear)
             viewModel.df.format(defValue).forEach {
-                onAction(CalculatorAction.Number(it))
+                onAction(CalculatorAction.Number("$it"))
             }
         }
     }

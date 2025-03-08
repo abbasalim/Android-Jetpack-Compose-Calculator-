@@ -101,7 +101,7 @@ class CalculatorViewModel ( ): ViewModel( ) {
         }
     }
 
-    private fun enterNumber(number: Char) {
+    private fun enterNumber(number: String) {
         if (state.operation == null) {
             if (state.number1.length >= MAX_NUM_LENGTH) {
                 return
